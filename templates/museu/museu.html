@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Nosso Museu de Momentos</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="{% static 'css/museu.css' %}">
+
+</head>
+
+<body>
+
+<div id="overlay">
+    <img id="imgExpandida">
+    <div id="overlayTexto"></div>
+    <button id="fechar">Fechar</button>
+</div>
+
+<img id="img1" src="{% static 'images/2021.jpeg' %}" hidden>
+<img id="img2" src="{% static 'images/2022.jpeg' %}" hidden>
+<img id="img3" src="{% static 'images/2023.jpeg' %}" hidden>
+<img id="img4" src="{% static 'images/2024.jpeg' %}" hidden>
+<img id="img5" src="{% static 'images/2025.jpeg' %}" hidden>
+<img id="img6" src="{% static 'images/2026.jpeg' %}" hidden>
+<img id="img7" src="{% static 'images/entrada.jpeg' %}" hidden>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<audio id="musica" loop>
+    <source src="{% static 'audio/musica.mp3' %}" type="audio/mp3">
+</audio>
+
+<script src="{% static 'js/museu.js' %}"></script>
+
+</body>
+</html>
