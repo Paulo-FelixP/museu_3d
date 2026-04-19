@@ -1,3 +1,5 @@
+const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent)
+
 const scene = new THREE.Scene()
 scene.fog = new THREE.Fog(0x050505,20,90)
 
@@ -12,8 +14,13 @@ camera.position.set(0,7,16)
 
 const renderer = new THREE.WebGLRenderer({antialias:true})
 renderer.setPixelRatio(window.devicePixelRatio > 1 ? 1.5 : 1)
+renderer.setPixelRatio(1)
 renderer.setSize(window.innerWidth,window.innerHeight)
 document.body.appendChild(renderer.domElement)
+
+if(isMobile){
+    renderer.setPixelRatio(0.7)
+}
 
 
 // =================
@@ -409,7 +416,7 @@ criarSpotTrilho(x + i,19.4,z)
 // LUZ
 // =================
 
-const ambient = new THREE.AmbientLight(0xfff3d6,0.25)
+const ambient = new THREE.AmbientLight(0xfff3d6,0.5)
 scene.add(ambient)
 
 function criarLuzQuadro(x,y,z){
@@ -1153,13 +1160,13 @@ criarBarreiraMuseu(28,20)
 
 function iniciarLuzes(){
 
-criarLuzQuadro(-34,15,-20)
-criarLuzQuadro(-34,15,0)
-criarLuzQuadro(-34,15,20)
+// criarLuzQuadro(-34,15,-20)
+//criarLuzQuadro(-34,15,0)
+//criarLuzQuadro(-34,15,20)
 
-criarLuzQuadro(34,15,-20)
-criarLuzQuadro(34,15,0)
-criarLuzQuadro(34,15,20)
+//criarLuzQuadro(34,15,-20)
+//criarLuzQuadro(34,15,0)
+//criarLuzQuadro(34,15,20)
 
 }
 
@@ -1450,15 +1457,13 @@ camera.position.x = Math.max(-limiteParede, Math.min(limiteParede, camera.positi
 camera.position.z = Math.max(-limiteParede, Math.min(limiteParede, camera.position.z))
 
 // pedestal rotativo
+if(!isMobile){
 scene.traverse((obj) => {
-
 if(obj.userData.rotacionar){
-
 obj.rotation.y += 0.003
-
 }
-
 })
+}
 
 // =================
 // ZOOM CINEMATOGRÁFICO
