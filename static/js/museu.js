@@ -11,6 +11,7 @@ window.innerWidth/window.innerHeight,
 camera.position.set(0,7,16)
 
 const renderer = new THREE.WebGLRenderer({antialias:true})
+renderer.setPixelRatio(window.devicePixelRatio > 1 ? 1.5 : 1)
 renderer.setSize(window.innerWidth,window.innerHeight)
 document.body.appendChild(renderer.domElement)
 
@@ -829,12 +830,13 @@ criarCorda(x,z-distancia,x,z+distancia)
 
 const musica = document.getElementById("musica")
 
-window.addEventListener("click", ()=>{
-
+function iniciarMusica(){
 musica.volume = 0.1
 musica.play()
+}
 
-},{ once:true })
+window.addEventListener("click", iniciarMusica, { once:true })
+window.addEventListener("touchstart", iniciarMusica, { once:true })
 
 
 //abajur
@@ -1349,6 +1351,72 @@ setTarget(event.clientX,event.clientY)
 }
 
 })
+
+// =================
+// TOUCH (CELULAR)
+// =================
+
+window.addEventListener("touchstart", (event) => {
+
+if(overlayAberto) return
+
+const touch = event.touches[0]
+
+isDragging = true
+moved = false
+startX = touch.clientX
+
+})
+
+window.addEventListener("touchmove", (event) => {
+
+if(!isDragging) return
+
+const touch = event.touches[0]
+const deltaX = touch.clientX - startX
+
+if(Math.abs(deltaX) > 2){
+moved = true
+rotateCamera(deltaX)
+}
+
+startX = touch.clientX
+
+})
+
+window.addEventListener("touchend", (event) => {
+
+if(overlayAberto) return
+if(cameraTarget) return
+
+isDragging = false
+
+const touch = event.changedTouches[0]
+
+mouse.x = (touch.clientX/window.innerWidth)*2-1
+mouse.y = -(touch.clientY/window.innerHeight)*2+1
+
+raycaster.setFromCamera(mouse,camera)
+
+const objetos = quadros.map(q=>q.mesh)
+const intersects = raycaster.intersectObjects(objetos)
+
+if(intersects.length > 0){
+
+const objeto = quadros.find(q=>q.mesh === intersects[0].object)
+
+zoomQuadro = objeto
+cameraTarget = objeto.mesh.position.clone()
+return
+
+}
+
+if(!moved){
+setTarget(touch.clientX, touch.clientY)
+}
+
+})
+
 
 
 // =================
